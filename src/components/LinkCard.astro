@@ -1,0 +1,62 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+	id: string;
+	title: string;
+	subtitle?: string;
+	url: string;
+	icon?: string;
+	featured?: boolean;
+}
+
+const { title, subtitle, url, icon, featured = false } = Astro.props;
+const isExternal = url.startsWith('http://') || url.startsWith('https://');
+---
+
+<a
+	href={url}
+	target={isExternal ? '_blank' : undefined}
+	rel={isExternal ? 'noopener noreferrer' : undefined}
+	class:list={[
+		'nm-card group',
+		{ 'featured-card': featured }
+	]}
+>
+	<!-- Left Icon wrapper with concave/inset soft well -->
+	{icon && (
+		<div
+			class:list={[
+				'flex items-center justify-center w-11 h-11 rounded-xl text-[#3b82f6] shrink-0 mr-4 transition-transform duration-140 group-hover:scale-105',
+				featured ? 'shadow-[inset_2px_2px_6px_#c2cde0,inset_-2px_-2px_6px_#ffffff] bg-[#e6ecf5]' : 'shadow-[inset_3px_3px_6px_#c2cde0,inset_-3px_-3px_6px_#ffffff] bg-[#e6ecf5]'
+			]}
+		>
+			<Icon name={icon} size="1.35em" />
+		</div>
+	)}
+
+	<!-- Content text -->
+	<div class="flex-1 min-w-0 pr-2">
+		<span class="block font-bold text-[0.95rem] text-[#1e293b] truncate">
+			{title}
+		</span>
+		{subtitle && (
+			<p class="text-xs font-mono font-medium text-[#64748b] truncate mt-1 m-0">
+				{subtitle}
+			</p>
+		)}
+	</div>
+
+	<!-- Directional arrow button with soft convex extrusion -->
+	<div
+		class:list={[
+			'flex items-center justify-center w-8 h-8 rounded-full bg-[#e6ecf5] text-[#64748b] shadow-[3px_3px_6px_#c2cde0,-3px_-3px_6px_#ffffff] group-hover:text-[#3b82f6] group-hover:shadow-[inset_2px_2px_4px_#c2cde0,inset_-2px_-2px_4px_#ffffff] transition-all duration-120 shrink-0 ml-1',
+		]}
+	>
+		{isExternal ? (
+			<Icon name="tabler:arrow-up-right" size="1.15em" class="stroke-[2.5]" />
+		) : (
+			<Icon name="tabler:arrow-right" size="1.15em" class="stroke-[2.5]" />
+		)}
+	</div>
+</a>

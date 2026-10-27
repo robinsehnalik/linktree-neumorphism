@@ -1,0 +1,118 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	profile: CollectionEntry<'profile'>['data'];
+}
+
+const { profile } = Astro.props;
+
+const featuredSocials = [
+	{ platform: 'youtube', label: 'YouTube', url: 'https://youtube.com', icon: 'tabler:brand-youtube' },
+	{ platform: 'x', label: 'X / Twitter', url: 'https://x.com', icon: 'tabler:brand-x' },
+	{ platform: 'instagram', label: 'Instagram', url: 'https://instagram.com', icon: 'tabler:brand-instagram' },
+	{ platform: 'github', label: 'GitHub', url: 'https://github.com', icon: 'tabler:brand-github' },
+];
+---
+
+<section class="flex flex-col items-center text-center pt-2 pb-6">
+	<!-- Centered profile picture with soft extruded neumorphic frame -->
+	<div class="relative mb-5">
+		<div class="relative w-28 h-28 md:w-32 md:h-32 rounded-3xl p-2 bg-[#e6ecf5] shadow-[8px_8px_18px_#c2cde0,-8px_-8px_18px_#ffffff] border border-white/70">
+			<Image
+				src={profile.avatar}
+				alt={profile.name}
+				width={256}
+				height={256}
+				loading="eager"
+				fetchpriority="high"
+				class="w-full h-full object-cover rounded-2xl"
+			/>
+		</div>
+
+		<!-- Corner [VERIFIED] pill overlay -->
+		<div
+			class="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full bg-[#e6ecf5] text-[#1e293b] font-mono text-[10px] font-black tracking-widest uppercase shadow-[3px_3px_8px_#c2cde0,-3px_-3px_8px_#ffffff] border border-white/80 flex items-center gap-1 select-none"
+		>
+			<Icon name="tabler:check" size="1.2em" class="text-blue-500 stroke-[3]" />
+			<span>VERIFIED</span>
+		</div>
+	</div>
+
+	<!-- Name in clean modern sans -->
+	<div class="mb-3 space-y-2">
+		<h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-[#1e293b] m-0">
+			{profile.name}
+		</h1>
+		
+		<!-- Role badge and location tag with soft embossed pills -->
+		<div class="flex items-center flex-wrap justify-center gap-2 pt-1">
+			<span class="inline-flex items-center px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-wider rounded-full bg-[#e6ecf5] text-[#3b82f6] shadow-[inset_2px_2px_5px_#c2cde0,inset_-2px_-2px_5px_#ffffff]">
+				{profile.badge ?? 'DIGITAL CREATOR & DESIGNER'}
+			</span>
+
+			<span class="inline-flex items-center px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-wider rounded-full bg-[#e6ecf5] text-[#64748b] shadow-[3px_3px_6px_#c2cde0,-3px_-3px_6px_#ffffff] border border-white/60">
+				SAN FRANCISCO, CA
+			</span>
+		</div>
+	</div>
+
+	<!-- Neumorphic concave well for ABOUT ME -->
+	<div class="w-full max-w-md mx-auto mb-6 p-5 rounded-3xl bg-[#e6ecf5] shadow-[inset_4px_4px_10px_#c2cde0,inset_-4px_-4px_10px_#ffffff] border border-white/40 text-left">
+		<div class="font-mono text-[11px] font-black uppercase text-[#1e293b] pb-2 mb-2.5 border-b border-[#cbd5e1]/60 flex items-center justify-between">
+			<span class="tracking-widest">ABOUT ME</span>
+			<span class="text-[10px] text-[#64748b] font-bold">BIO</span>
+		</div>
+		<p class="text-[0.9375rem] text-[#334155] font-sans leading-relaxed m-0">
+			{profile.bio}
+		</p>
+	</div>
+
+	<!-- 3-column stat counter grid with convex neumorphic extrusions -->
+	<div class="grid grid-cols-3 gap-3 w-full max-w-md mb-6">
+		<div class="p-3.5 rounded-2xl bg-[#e6ecf5] shadow-[5px_5px_12px_#c2cde0,-5px_-5px_12px_#ffffff] border border-white/60 text-center">
+			<div class="text-xl md:text-2xl font-black font-mono tracking-tight text-[#1e293b]">
+				142K
+			</div>
+			<div class="text-[10px] font-mono font-bold uppercase tracking-wider text-[#64748b] mt-0.5">
+				SUBSCRIBERS
+			</div>
+		</div>
+
+		<div class="p-3.5 rounded-2xl bg-[#e6ecf5] shadow-[5px_5px_12px_#c2cde0,-5px_-5px_12px_#ffffff] border border-white/60 text-center">
+			<div class="text-xl md:text-2xl font-black font-mono tracking-tight text-[#1e293b]">
+				2.8M
+			</div>
+			<div class="text-[10px] font-mono font-bold uppercase tracking-wider text-[#64748b] mt-0.5">
+				TOTAL VIEWS
+			</div>
+		</div>
+
+		<div class="p-3.5 rounded-2xl bg-[#e6ecf5] shadow-[5px_5px_12px_#c2cde0,-5px_-5px_12px_#ffffff] border border-white/60 text-center">
+			<div class="text-xl md:text-2xl font-black font-mono tracking-tight text-[#1e293b]">
+				28K
+			</div>
+			<div class="text-[10px] font-mono font-bold uppercase tracking-wider text-[#64748b] mt-0.5">
+				NEWSLETTER
+			</div>
+		</div>
+	</div>
+
+	<!-- Row of circular / rounded neumorphic social buttons -->
+	<nav aria-label="Social profiles" class="flex flex-wrap items-center justify-center gap-3.5">
+		{featuredSocials.map((social) => (
+			<a
+				href={social.url}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="nm-button w-12 h-12 rounded-2xl text-[#1e293b]"
+				aria-label={social.label}
+				title={social.label}
+			>
+				<Icon name={social.icon} size="1.35em" class="text-[#334155]" />
+			</a>
+		))}
+	</nav>
+</section>

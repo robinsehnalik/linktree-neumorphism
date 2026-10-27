@@ -1,0 +1,75 @@
+id: alex-links
+items:
+  # Featured / Highlighted
+  - id: "latest-video"
+    title: "Watch: My Desk Setup & Minimalist Studio Tour 2026"
+    subtitle: "Full breakdown of cameras, audio, monitors & cable management"
+    url: "https://youtube.com/watch?v=example"
+    icon: "tabler:player-play-filled"
+    tag: "New Video"
+    featured: true
+    category: "Featured"
+
+  - id: "newsletter"
+    title: "The Sunday Dispatch Newsletter"
+    subtitle: "Actionable creative insights & design curation read by 28,000+ creators"
+    url: "#newsletter"
+    icon: "tabler:mail-fast"
+    tag: "Free Weekly"
+    featured: true
+    category: "Featured"
+
+  # Products & Services
+  - id: "notion-template"
+    title: "Minimalist Life Operating System for Notion"
+    subtitle: "The complete setup I use to manage projects, clients & content"
+    url: "https://gumroad.com"
+    icon: "tabler:layout-grid"
+    tag: "40% Off"
+    featured: false
+    category: "Products & Kits"
+
+  - id: "presets"
+    title: "Cinematic Lightroom & Video LUT Pack"
+    subtitle: "24 custom color grades for mobile, mirrorless & drone footage"
+    url: "https://gumroad.com"
+    icon: "tabler:color-filter"
+    tag: "Bestseller"
+    featured: false
+    category: "Products & Kits"
+
+  - id: "consulting"
+    title: "1-on-1 Creative Direction & Brand Mentorship"
+    subtitle: "Book an intensive 60-minute strategy call with me"
+    url: "https://cal.com"
+    icon: "tabler:calendar-time"
+    tag: "Limited Slots"
+    featured: false
+    category: "Services"
+
+  # Media & Resources
+  - id: "podcast"
+    title: "The Creative Signal Podcast"
+    subtitle: "Conversations on taste, craft, and building an independent living"
+    url: "https://spotify.com"
+    icon: "tabler:headphones"
+    tag: "Ep. 48 Out"
+    featured: false
+    category: "Media & Resources"
+
+  - id: "gear-kit"
+    title: "My Complete Gear & Camera Kit"
+    subtitle: "Every lens, light, mic, and everyday carry item I recommend"
+    url: "https://kit.co"
+    icon: "tabler:camera"
+    featured: false
+    category: "Media & Resources"
+
+  - id: "discord"
+    title: "Join the Private Creator Community"
+    subtitle: "Connect with 4,000+ designers, founders, and videographers"
+    url: "https://discord.gg"
+    icon: "tabler:brand-discord"
+    tag: "Community"
+    featured: false
+    category: "Media & Resources"

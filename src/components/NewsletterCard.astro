@@ -1,0 +1,106 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<section id="newsletter" class="mt-8 p-6 rounded-3xl bg-[#e6ecf5] shadow-[8px_8px_20px_#c2cde0,-8px_-8px_20px_#ffffff] border border-white/60 scroll-mt-6">
+	<div class="flex items-start gap-4 mb-4">
+		<div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-[#e6ecf5] text-[#3b82f6] shadow-[inset_3px_3px_6px_#c2cde0,inset_-3px_-3px_6px_#ffffff] shrink-0">
+			<Icon name="tabler:mail" size="1.4em" />
+		</div>
+		<div>
+			<h2 class="text-lg font-extrabold tracking-tight text-[#1e293b] m-0 font-sans">
+				Newsletter
+			</h2>
+			<p class="text-xs font-mono text-[#64748b] m-0 mt-1">
+				Join 28,000+ readers. Design, workspace aesthetics, and creator tools delivered weekly.
+			</p>
+		</div>
+	</div>
+
+	<form id="newsletter-form" class="space-y-3 mt-4" novalidate>
+		<div class="flex flex-col sm:flex-row gap-3">
+			<label for="newsletter-email" class="sr-only">Email address</label>
+			<input
+				type="email"
+				id="newsletter-email"
+				name="email"
+				required
+				autocomplete="email"
+				placeholder="YOUR_EMAIL@DOMAIN.COM"
+				class="flex-1 min-h-[48px] px-4 py-2.5 rounded-2xl font-mono text-sm bg-[#e6ecf5] text-[#1e293b] placeholder:text-[#94a3b8] shadow-[inset_3px_3px_7px_#c2cde0,inset_-3px_-3px_7px_#ffffff] border-none focus:outline-none focus:ring-2 focus:ring-[#3b82f6]/40"
+			/>
+			<!-- Neumorphic extruded submit button with soft blue tint -->
+			<button
+				type="submit"
+				id="newsletter-submit"
+				class="nm-button min-h-[48px] px-7 py-2.5 bg-gradient-to-br from-[#3b82f6] to-[#2563eb] text-white shadow-[4px_4px_10px_#bcc7dd,-4px_-4px_10px_#ffffff] border border-blue-400/30 hover:brightness-105 active:shadow-[inset_2px_2px_5px_#1d4ed8] shrink-0 cursor-pointer text-xs font-mono font-black rounded-2xl"
+			>
+				<span id="submit-text">JOIN</span>
+				<svg
+					id="submit-spinner"
+					class="hidden animate-spin h-4 w-4 text-white ml-1.5"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					aria-hidden="true"
+				>
+					<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+					<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+				</svg>
+			</button>
+		</div>
+
+		<!-- Polite inline validation feedback -->
+		<p id="newsletter-feedback" class="text-xs font-mono font-bold min-h-[1.25rem] m-0" role="status" aria-live="polite"></p>
+	</form>
+</section>
+
+<script>
+	const form = document.getElementById('newsletter-form') as HTMLFormElement | null;
+	const input = document.getElementById('newsletter-email') as HTMLInputElement | null;
+	const button = document.getElementById('newsletter-submit') as HTMLButtonElement | null;
+	const submitText = document.getElementById('submit-text');
+	const submitSpinner = document.getElementById('submit-spinner');
+	const feedback = document.getElementById('newsletter-feedback');
+
+	form?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		if (!input || !button || !feedback) return;
+
+		const email = input.value.trim();
+
+		if (!email) {
+			feedback.textContent = '[ERROR: EMAIL FIELD IS REQUIRED]';
+			feedback.className = 'text-xs font-mono font-bold text-rose-500 m-0';
+			input.focus();
+			return;
+		}
+
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			feedback.textContent = '[ERROR: INVALID FORMAT. USE NAME@DOMAIN.COM]';
+			feedback.className = 'text-xs font-mono font-bold text-rose-500 m-0';
+			input.focus();
+			return;
+		}
+
+		button.disabled = true;
+		button.classList.add('opacity-80', 'cursor-not-allowed');
+		submitSpinner?.classList.remove('hidden');
+		if (submitText) submitText.textContent = 'JOINING…';
+		feedback.textContent = '';
+
+		await new Promise((resolve) => setTimeout(resolve, 600));
+
+		button.disabled = false;
+		button.classList.remove('opacity-80', 'cursor-not-allowed');
+		submitSpinner?.classList.add('hidden');
+		if (submitText) submitText.textContent = 'DONE';
+		feedback.textContent = '✓ SUCCESS: ACCESS GRANTED. CHECK YOUR INBOX.';
+		feedback.className = 'text-xs font-mono font-bold text-blue-600 m-0';
+		input.value = '';
+
+		setTimeout(() => {
+			if (submitText) submitText.textContent = 'JOIN';
+		}, 4000);
+	});
+</script>

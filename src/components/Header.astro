@@ -1,0 +1,76 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<header class="w-full pt-6 pb-4">
+	<div class="shell-container flex items-center justify-between">
+		<div class="inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#e6ecf5] shadow-[3px_3px_7px_#c2cde0,-3px_3px_7px_#ffffff] border border-white/60 font-mono text-xs font-bold text-[#1e293b] lowercase">
+			<span>alexvance.com</span>
+		</div>
+
+		<div class="flex items-center gap-3">
+			<button
+				type="button"
+				id="share-profile-btn"
+				class="nm-button min-w-[44px] min-h-[44px] px-4 py-2 text-xs font-mono font-bold"
+				aria-label="Share profile link"
+				title="Share profile"
+			>
+				<Icon name="tabler:share" size="1.25em" class="mr-1.5 inline-block text-[#3b82f6]" />
+				<span>SHARE</span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- Neumorphic toast alert -->
+<div
+	id="share-toast"
+	role="status"
+	aria-live="polite"
+	class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-150 flex items-center gap-2 px-4 py-3 rounded-2xl bg-[#e6ecf5] text-[#1e293b] font-mono font-bold text-xs uppercase shadow-[6px_6px_16px_#c2cde0,-6px_-6px_16px_#ffffff] border border-white/70"
+>
+	<Icon name="tabler:check" size="1.2em" class="text-blue-500 stroke-[3]" />
+	<span id="share-toast-msg">LINK COPIED TO CLIPBOARD</span>
+</div>
+
+<script>
+	const shareBtn = document.getElementById('share-profile-btn');
+	const toast = document.getElementById('share-toast');
+	const toastMsg = document.getElementById('share-toast-msg');
+
+	function showToast(message: string) {
+		if (!toast || !toastMsg) return;
+		toastMsg.textContent = message.toUpperCase();
+		toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
+		toast.classList.add('opacity-100', 'translate-y-0');
+
+		setTimeout(() => {
+			toast.classList.remove('opacity-100', 'translate-y-0');
+			toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+		}, 2600);
+	}
+
+	shareBtn?.addEventListener('click', async () => {
+		const shareData = {
+			title: document.title,
+			url: window.location.href,
+		};
+
+		if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+			try {
+				await navigator.share(shareData);
+				return;
+			} catch (err) {
+				if ((err as Error).name === 'AbortError') return;
+			}
+		}
+
+		try {
+			await navigator.clipboard.writeText(window.location.href);
+			showToast('Link copied to clipboard!');
+		} catch (err) {
+			showToast('Unable to copy link.');
+		}
+	});
+</script>
